@@ -1,6 +1,6 @@
-import { createInitialState, produceNextTick } from '../src/field';
-import { getStateRepresentation } from '../src/representation';
-import _ = require('lodash');
+import { createInitialState, produceNextTick } from "../src/field";
+import { getStateRepresentation } from "../src/representation";
+import _ = require("lodash");
 
 describe("Text representation", () => {
   const height = 6;
@@ -8,7 +8,7 @@ describe("Text representation", () => {
   it.skip("transform back", () => {
     const state = createInitialState(height, width);
     const stateReprepresentation = getStateRepresentation(state);
-    expect(getStateRepresentation(getStateFromRepresentation(stateReprepresentation))).toEqual(stateReprepresentation);
+    // expect(getStateRepresentation(getStateFromRepresentation(stateReprepresentation))).toEqual(stateReprepresentation);
   });
   it("inital state looks ok", () => {
     const state = createInitialState(height, width);
@@ -29,12 +29,12 @@ describe("Falling block", () => {
   const height = 6;
   const width = 5;
   const state = createInitialState(height, width);
-  it('stays for 9 ticks', () => {
+  it("stays for 9 ticks", () => {
     const newState = _.range(9).reduce(acc => produceNextTick(acc), state);
     expect(newState.tick).toBe(9);
     expect(newState.controlBlock).toBe(state.controlBlock);
   });
-  it('falls after 10 ticks', () => {
+  it("falls after 10 ticks", () => {
     const newState = _.range(10).reduce(acc => produceNextTick(acc), state);
     expect(newState.controlBlock).not.toBe(state.controlBlock);
     const stateReprepresentation = getStateRepresentation(newState);
@@ -48,7 +48,7 @@ describe("Falling block", () => {
 ";
     expect(stateReprepresentation).toEqual(expectedRepresentation);
   });
-  it('is on floor after 40 ticks', () => {
+  it("is on floor after 40 ticks", () => {
     const newState = _.range(40).reduce(acc => produceNextTick(acc), state);
     const stateReprepresentation = getStateRepresentation(newState);
     const expectedRepresentation = "\
@@ -61,7 +61,7 @@ describe("Falling block", () => {
 ";
     expect(stateReprepresentation).toEqual(expectedRepresentation);
   });
-  it('is on floor after 50 ticks', () => {
+  it("is on floor after 50 ticks", () => {
     const newState = _.range(50).reduce(acc => produceNextTick(acc), state);
     const stateReprepresentation = getStateRepresentation(newState);
     const expectedRepresentation = "\
@@ -74,7 +74,7 @@ describe("Falling block", () => {
 ";
     expect(stateReprepresentation).toEqual(expectedRepresentation);
   });
-  it('is creates new falling block after 60 ticks', () => {
+  it("is creates new falling block after 60 ticks", () => {
     const newState = _.range(60).reduce(acc => produceNextTick(acc), state);
     const stateReprepresentation = getStateRepresentation(newState);
     const expectedRepresentation = "\
@@ -88,7 +88,7 @@ describe("Falling block", () => {
     expect(stateReprepresentation).toEqual(expectedRepresentation);
   });
 
-  it('is drops on other blocks after 90 ticks', () => {
+  it("is drops on other blocks after 90 ticks", () => {
     const newState = _.range(90).reduce(acc => produceNextTick(acc), state);
     const stateReprepresentation = getStateRepresentation(newState);
     const expectedRepresentation = "\
@@ -102,7 +102,7 @@ describe("Falling block", () => {
     expect(stateReprepresentation).toEqual(expectedRepresentation);
   });
 
-  it('is creates more blocks after 100 ticks', () => {
+  it("is creates more blocks after 100 ticks", () => {
     const newState = _.range(100).reduce(acc => produceNextTick(acc), state);
     const stateReprepresentation = getStateRepresentation(newState);
     const expectedRepresentation = "\
@@ -116,7 +116,7 @@ describe("Falling block", () => {
     expect(stateReprepresentation).toEqual(expectedRepresentation);
   });
 
-  it('is is dead after 120 ticks', () => {
+  it("is is dead after 120 ticks", () => {
     const newState = _.range(120).reduce(acc => produceNextTick(acc), state);
     expect(newState.isDead).toBeTruthy();
   });

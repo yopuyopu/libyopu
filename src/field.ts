@@ -1,4 +1,4 @@
-import produce from 'immer';
+import produce from "immer";
 
 export type Block = number;
 
@@ -8,11 +8,11 @@ export enum Orientation {
 }
 
 export interface IControlBlockState {
-  orientation: Orientation,
-  firstBlock: Block,
-  secondBlock: Block,
-  positionX: number,
-  positionY: number,
+  orientation: Orientation;
+  firstBlock: Block;
+  secondBlock: Block;
+  positionX: number;
+  positionY: number;
 }
 
 export interface IState {
@@ -25,7 +25,7 @@ export interface IState {
 
 export const createInitialState = (height: number, width: number): IState => {
   const blockArray: Block[][] = [];
-  for (let i=0; i<height; i++) {
+  for (let i = 0; i < height; i++) {
     blockArray[i] = Array(width).fill(0);
   }
   return {
@@ -50,7 +50,7 @@ export const createControlBlock = (state: IState) => {
     positionY: getHeight(state),
     firstBlock: 1,
     secondBlock: 2,
-  }
+  };
 };
 
 export const getWidth = (state: IState) => state.blocks[0].length;
@@ -59,7 +59,7 @@ export const getHeight = (state: IState) => state.blocks.length - 2;
 
 export const isBlockOnTopOfOtherBlock = (state: IState, x: number, y: number) => {
   if (y === 0) return true;
-  return state.blocks[y-1][x] > 0;
+  return state.blocks[y - 1][x] > 0;
 };
 
 export const shouldControlBlockAttach = (state: IState): boolean => {
