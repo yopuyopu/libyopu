@@ -1,7 +1,7 @@
-import { createInitialState, produceNextTick } from '../src/field';
+import { createInitialState, produceNextTick } from "../src/field";
 import { getStateRepresentation } from "../src/representation";
-import _ = require("lodash");
-import { Orientation } from '../src/control_block';
+import * as _ from "lodash";
+import { Orientation } from "../src/control_block";
 
 describe("Text representation", () => {
   const height = 6;

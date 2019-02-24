@@ -1,6 +1,6 @@
 import { createInitialState, produceNextTick } from "../src/field";
 import { getStateRepresentation } from "../src/representation";
-import _ = require("lodash");
+import * as _ from "lodash";
 
 describe("Falling block", () => {
   const height = 6;

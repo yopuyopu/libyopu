@@ -1,6 +1,6 @@
 import { createInitialState } from "../src/field";
 import { getStateRepresentation } from "../src/representation";
-import _ = require("lodash");
+import * as _ from "lodash";
 import produce from "immer";
 import { moveDown, moveLeft, moveRight } from "../src/control_block";
 
