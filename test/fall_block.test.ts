@@ -39,3 +39,4 @@ describe("Falling block", () => {
     expect(stateReprepresentation).toEqual(expectedRepresentation);
   });
 });
+
