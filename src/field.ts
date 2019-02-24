@@ -11,6 +11,7 @@ export interface IState {
   fallSpeed: number;
   isDead: boolean;
   coolDown: number;
+  removeChain: number;
 }
 
 export const createInitialState = (height: number, width: number): IState => {
@@ -31,6 +32,7 @@ export const createInitialState = (height: number, width: number): IState => {
     controlBlockSpeed: 10,
     fallSpeed: 5,
     isDead: false,
+    removeChain : 0,
     coolDown: 9,
   };
 };
@@ -42,15 +44,41 @@ export const forEachBlock = (state: IState, cb: (y: number, x: number) => any) =
 };
 
 export const fallBlocks = (state: IState) => {
-  let hasDropped = false;
   forEachBlock(state, (y, x) => {
     if (state.blocks[y][x] !== 0 && controlBlock.isDownEmpty(state, x, y)) {
       state.blocks[y - 1][x] = state.blocks[y][x];
       state.blocks[y][x] = 0;
-      hasDropped = true;
     }
   });
-  return hasDropped;
+};
+
+export const addToChain = (state: IState, y: number, x: number, chain: [number, number][]) => {
+  chain.push([y, x]);
+  if (state.blocks[y + 1][x] === state.blocks[y][x]) {
+    addToChain(state, y + 1, x, chain);
+  }
+  if (x < (getWidth(state) - 1) && state.blocks[y][x + 1] === state.blocks[y][x]) {
+    addToChain(state, y, x + 1, chain);
+  }
+};
+
+export const removeGroups = (state: IState) => {
+  let groupsRemoved = 0;
+  let blocksRemoved = 0;
+  forEachBlock(state, (y, x) => {
+    if (state.blocks[y][x] > 0) {
+      const chain: [number, number][] = [];
+      addToChain(state, y, x, chain);
+      if (chain.length > 3) {
+        chain.forEach(pos => {
+          state.blocks[pos[0]][pos[1]] = 0;
+          groupsRemoved += 1;
+          blocksRemoved += chain.length;
+        });
+      }
+    }
+  });
+  return [groupsRemoved, blocksRemoved];
 };
 
 export const nextTick = (state: IState) => {
@@ -62,17 +90,33 @@ export const nextTick = (state: IState) => {
   if (state.controlBlock) {
     controlBlock.drop(state);
     state.coolDown = state.controlBlockSpeed - 1;
+    return;
+  }
+
+  // if there are blocks that should fall
+  if (state !== produce(state, fallBlocks)) {
+    // let the blocks fall
+    fallBlocks(state);
+    // if more blocks are falling, short cooldown. If done falling, long cooldown
+    state.coolDown = ((state === produce(state, fallBlocks)) ? state.fallSpeed : state.controlBlockSpeed) - 1;
+    return;
+  }
+
+  const [groupsRemoved, blocksRemoved] = removeGroups(state);
+  if (groupsRemoved > 0) {
+    state.coolDown = state.controlBlockSpeed - 1;
+    state.removeChain += 1;
+    return;
   } else {
-    if (fallBlocks(state)) {
-      state.coolDown = state.fallSpeed - 1;
-    } else {
-      if (!controlBlock.canBeCreated(state)) {
-        state.isDead = true;
-      } else {
-        controlBlock.createControlBlock(state);
-        state.coolDown = state.controlBlockSpeed - 1;
-      }
-    }
+    // We're done with this fall + block remove cycle.
+    state.removeChain = 0;
+  }
+
+  if (!controlBlock.canBeCreated(state)) {
+    state.isDead = true;
+  } else {
+    controlBlock.createControlBlock(state);
+    state.coolDown = state.controlBlockSpeed - 1;
   }
 };
 

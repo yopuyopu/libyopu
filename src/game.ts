@@ -15,14 +15,16 @@ terminal.magenta("YopuYopu demo");
 setInterval(() => {
   currentState = produceNextTick(currentState);
   terminal.moveTo( 20 , 0 ) ;
-  terminal.white(currentState.tick.toString());
+  terminal.white("chain: " + currentState.removeChain.toString());
+  terminal.moveTo( 30 , 0 ) ;
+  terminal.white("tick: " + currentState.tick.toString());
   terminal.moveTo( 0 , 3 ) ;
   terminal.bgGreen().bold().white(getStateRepresentation(currentState));
   if (currentState.isDead) {
     terminal.moveTo( 0 , 2 ) ;
     terminal.resetDefaultBgColorRgb().red("Game Over :(");
   }
-}, 10);
+}, 50);
 
 import * as readline from "readline";
 import { getStateRepresentation } from "./representation";
