@@ -1,26 +1,27 @@
 {
-  "name": "express-typescript-starter",
-  "version": "0.1.0",
-  "description": "A starting point for Node.js express apps with TypeScript",
+  "name": "libyopu",
+  "version": "0.0.1",
+  "description": "Libyopu yopuyopu engine",
+  "main": "dist/libyopu.umd.js",
+  "module": "dist/libyopu.es5.js",
+  "types": "dist/typess/libyopu.d.ts",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Microsoft/TypeScript-Node-Starter"
+    "url": "https://github.com/yopuyopu/yopu"
   },
-  "author": "Bowden Kelly",
+  "author": "Jacob Akkerboom & Tom Klaver",
   "license": "MIT",
   "scripts": {
-    "start": "cd dist && serve",
-    "build": "npm run build-sass && npm run build-ts && npm run tslint && npm run copy-static-assets",
-    "watch-node": "nodemon dist/server.js",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts",
     "test": "jest --coverage --verbose",
     "watch-test": "npm run test -- --watchAll",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "copy-static-assets": "ts-node copyStaticAssets.ts",
-    "debug": "npm run build && npm run watch-debug",
     "game": "ts-node src/game.ts"
   },
   "dependencies": {
@@ -34,10 +35,15 @@
     "@types/node": "^11.9.5",
     "@types/terminal-kit": "^1.26.0",
     "jest": "^24.1.0",
-    "serve": "^10.1.2",
     "ts-jest": "^24.0.0",
     "ts-node": "^8.0.2",
     "tslint": "^5.13.0",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.3.3333",
+    "rollup": "^1.2.3",
+    "rollup-plugin-commonjs": "^9.2.1",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-typescript2": "^0.19.2"
   }
 }

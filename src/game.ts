@@ -1,5 +1,5 @@
 import { terminal } from "terminal-kit";
-import { createInitialState, IState, produceNextTick } from './field';
+import { createInitialState, IState, produceNextTick } from "./field";
 import * as controlBlock from "./control_block";
 import produce from "immer";
 
