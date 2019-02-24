@@ -2,7 +2,7 @@ import { createInitialState, produceNextTick } from "../src/field";
 import { getStateRepresentation } from "../src/representation";
 import * as _ from "lodash";
 
-describe.skip("Clearing blocks in l-shape", () => {
+describe("Clearing blocks in l-shape", () => {
   const height = 6;
   const width = 5;
   const state = createInitialState(height, width);

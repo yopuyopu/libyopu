@@ -54,12 +54,29 @@ export const fallBlocks = (state: IState) => {
 
 export const addToChain = (state: IState, y: number, x: number, chain: [number, number][]) => {
   chain.push([y, x]);
+  const sameColoredNeighbours: typeof chain = [];
   if (state.blocks[y + 1] && state.blocks[y + 1][x] === state.blocks[y][x]) {
-    addToChain(state, y + 1, x, chain);
+    // on top
+    sameColoredNeighbours.push([y + 1, x]);
+  }
+  if (y > 0 && state.blocks[y - 1][x] === state.blocks[y][x]) {
+    // on bottom
+    sameColoredNeighbours.push([y - 1, x]);
   }
   if (x < (getWidth(state) - 1) && state.blocks[y][x + 1] === state.blocks[y][x]) {
-    addToChain(state, y, x + 1, chain);
+    // on right
+    sameColoredNeighbours.push([y, x + 1]);
   }
+  if (x > 0 && state.blocks[y][x - 1] === state.blocks[y][x]) {
+    // on left
+    sameColoredNeighbours.push([y, x - 1]);
+  }
+
+  sameColoredNeighbours.forEach(pos => {
+    if (!chain.map(p => p.toString()).includes(pos.toString())) {
+      addToChain(state, pos[0], pos[1], chain);
+    }
+  });
 };
 
 export const removeGroups = (state: IState) => {
