@@ -11,6 +11,7 @@ describe("Falling block", () => {
   state.blocks[1][2] = 2;
   state.blocks[2][2] = 2;
   state.blocks[2][3] = 1;
+  state.coolDown = 0;
   it("initial state has expected representation", () => {
     const stateReprepresentation = getStateRepresentation(state);
     const expectedRepresentation = "\
