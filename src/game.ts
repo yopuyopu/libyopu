@@ -1,7 +1,10 @@
 import { terminal } from "terminal-kit";
-import { createInitialState, IState, produceNextTick } from "./field";
-import * as controlBlock from "./control_block";
+import * as readline from "readline";
 import produce from "immer";
+
+import { createInitialState, IState, produceNextTick } from "./field";
+import { getStateRepresentation } from "./representation";
+import * as controlBlock from "./control_block";
 
 const height = 20;
 const width = 10;
@@ -26,8 +29,6 @@ setInterval(() => {
   }
 }, 50);
 
-import * as readline from "readline";
-import { getStateRepresentation } from "./representation";
 readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode!(true);
 process.stdin.on("keypress", (str, key) => {
