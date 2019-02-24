@@ -22,7 +22,7 @@
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "game": "ts-node src/game.ts"
+    "game": "ts-node -O '{\"module\": \"commonjs\"}' src/game.ts"
   },
   "dependencies": {
     "immer": "^2.0.0",
