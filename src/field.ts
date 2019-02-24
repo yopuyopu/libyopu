@@ -54,7 +54,7 @@ export const fallBlocks = (state: IState) => {
 
 export const addToChain = (state: IState, y: number, x: number, chain: [number, number][]) => {
   chain.push([y, x]);
-  if (state.blocks[y + 1][x] === state.blocks[y][x]) {
+  if (state.blocks[y + 1] && state.blocks[y + 1][x] === state.blocks[y][x]) {
     addToChain(state, y + 1, x, chain);
   }
   if (x < (getWidth(state) - 1) && state.blocks[y][x + 1] === state.blocks[y][x]) {
