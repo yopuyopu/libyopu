@@ -9,6 +9,7 @@ import * as controlBlock from "./control_block";
 const height = 20;
 const width = 10;
 const initialState = createInitialState(height, width);
+initialState.fallSpeed = 2;
 let currentState = initialState;
 
 terminal.moveTo( 1 , 1 ) ;
@@ -27,7 +28,7 @@ setInterval(() => {
     terminal.moveTo( 0 , 2 ) ;
     terminal.resetDefaultBgColorRgb().red("Game Over :(");
   }
-}, 50);
+}, 20);
 
 readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode!(true);

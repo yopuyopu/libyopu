@@ -114,8 +114,8 @@ export const nextTick = (state: IState) => {
   if (state !== produce(state, fallBlocks)) {
     // let the blocks fall
     fallBlocks(state);
-    // if more blocks are falling, short cooldown. If done falling, long cooldown
-    state.coolDown = ((state === produce(state, fallBlocks)) ? state.fallSpeed : state.controlBlockSpeed) - 1;
+    // if done falling, long cooldown. Else short cooldown
+    state.coolDown = ((state === produce(state, fallBlocks)) ? state.controlBlockSpeed : state.fallSpeed) - 1;
     return;
   }
 
