@@ -48,13 +48,14 @@ export const shouldAttach = (state: IState): boolean => {
   }
   return false;
 };
+
 export const drop = (state: IState) => {
   if (!state.controlBlock) return;
   if (shouldAttach(state)) {
     addToField(state);
     state.controlBlock = null;
   } else {
-    state.controlBlock.positionY -= 1;
+    moveDown(state);
   }
 };
 export const moveRight = (state: IState) => {
