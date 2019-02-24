@@ -9,6 +9,7 @@ export interface IState {
   controlBlock: null | controlBlock.IControlBlockState;
   speed: number;
   isDead: boolean;
+  coolDown: number;
 }
 
 export const createInitialState = (height: number, width: number): IState => {
@@ -28,6 +29,7 @@ export const createInitialState = (height: number, width: number): IState => {
     },
     speed: 10,
     isDead: false,
+    coolDown: 9,
   };
 };
 
@@ -36,15 +38,18 @@ export const getHeight = (state: IState) => state.blocks.length - 2;
 
 export const nextTick = (state: IState) => {
   state.tick += 1;
-  if (controlBlock.shouldDrop(state)) {
+  if (state.coolDown > 0) {
+    state.coolDown--;
+    return;
+  }
+  if (state.controlBlock) {
     controlBlock.drop(state);
+    state.coolDown = state.speed - 1;
   } else {
-    if (!state.controlBlock && state.tick % state.speed === 0) {
-      if (controlBlock.canBeCreated(state)) {
-        state.isDead = true;
-      } else {
-        controlBlock.createControlBlock(state);
-      }
+    if (!controlBlock.canBeCreated(state)) {
+      state.isDead = true;
+    } else {
+      controlBlock.createControlBlock(state);
     }
   }
 };

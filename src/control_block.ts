@@ -100,8 +100,8 @@ export const rotate = (state: IState) => {
     [controlBlock.firstBlock, controlBlock.secondBlock] = [controlBlock.secondBlock, controlBlock.firstBlock];
   }
 };
-export const shouldDrop = (state: IState) => state.controlBlock && state.tick % state.speed === 0;
-export const canBeCreated = (state: IState) => state.blocks[getHeight(state)][getStartPositionX(state)] > 0;
+
+export const canBeCreated = (state: IState) => state.blocks[getHeight(state)][getStartPositionX(state)] === 0;
 export const addToField = (state: IState): void => {
   if (!state.controlBlock) return;
   const block1X = state.controlBlock.positionX;
