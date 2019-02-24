@@ -1,7 +1,7 @@
-import { createInitialState} from "../src/field";
+import { createInitialState } from "../src/field";
 import { getStateRepresentation } from "../src/representation";
 import produce from "immer";
-import { moveRight, rotateBlock } from '../src/control_block';
+import { moveRight, rotate } from "../src/control_block";
 
 describe("Rotate control block", () => {
   const height = 6;
@@ -9,7 +9,7 @@ describe("Rotate control block", () => {
   const state = createInitialState(height, width);
 
   it("can rotate right", () => {
-    const newState = produce(state, rotateBlock);
+    const newState = produce(state, rotate);
     const stateReprepresentation = getStateRepresentation(newState);
     const expectedRepresentation = "\
      \n\
@@ -23,7 +23,7 @@ describe("Rotate control block", () => {
   });
 
   it("can't rotate at right wall", () => {
-    const moves = [moveRight, moveRight, rotateBlock];
+    const moves = [moveRight, moveRight, rotate];
     const newState = moves.reduce((acc, move, _) => produce(acc, move), state);
     const stateReprepresentation = getStateRepresentation(newState);
     const expectedRepresentation = "\
@@ -38,7 +38,7 @@ describe("Rotate control block", () => {
   });
 
   it("flips after double rotate", () => {
-    const moves = [rotateBlock, rotateBlock];
+    const moves = [rotate, rotate];
     const newState = moves.reduce((acc, move, _) => produce(acc, move), state);
     const stateReprepresentation = getStateRepresentation(newState);
     const expectedRepresentation = "\

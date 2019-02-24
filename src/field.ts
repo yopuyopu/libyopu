@@ -1,19 +1,12 @@
 import produce from "immer";
-import {
-  canCreateControlBlock,
-  createControlBlock,
-  dropControlBlock,
-  IControlBlockState,
-  Orientation,
-  shouldControlBlockDrop
-} from "./control_block";
+import * as controlBlock from "./control_block";
 
 export type Block = number;
 
 export interface IState {
   blocks: Block[][];
   tick: number;
-  controlBlock: null | IControlBlockState;
+  controlBlock: null | controlBlock.IControlBlockState;
   speed: number;
   isDead: boolean;
 }
@@ -27,7 +20,7 @@ export const createInitialState = (height: number, width: number): IState => {
     blocks: blockArray,
     tick: 0,
     controlBlock: {
-      orientation: Orientation.VERTICAL,
+      orientation: controlBlock.Orientation.VERTICAL,
       positionX: Math.floor(width / 2),
       positionY: height - 2,
       firstBlock: 1,
@@ -38,27 +31,19 @@ export const createInitialState = (height: number, width: number): IState => {
   };
 };
 
-
-
 export const getWidth = (state: IState) => state.blocks[0].length;
-
 export const getHeight = (state: IState) => state.blocks.length - 2;
-
-
-
-
-
 
 export const nextTick = (state: IState) => {
   state.tick += 1;
-  if (shouldControlBlockDrop(state)) {
-    dropControlBlock(state);
+  if (controlBlock.shouldDrop(state)) {
+    controlBlock.drop(state);
   } else {
     if (!state.controlBlock && state.tick % state.speed === 0) {
-      if (canCreateControlBlock(state)) {
+      if (controlBlock.canBeCreated(state)) {
         state.isDead = true;
       } else {
-        createControlBlock(state);
+        controlBlock.createControlBlock(state);
       }
     }
   }
