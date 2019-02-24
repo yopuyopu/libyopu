@@ -1,5 +1,5 @@
 import { terminal } from "terminal-kit";
-import { createInitialState, produceNextTick } from "./field";
+import { createInitialState, IState, produceNextTick } from './field';
 import * as controlBlock from "./control_block";
 import produce from "immer";
 
@@ -24,8 +24,6 @@ setInterval(() => {
   }
 }, 10);
 
-setTimeout(() => null, 1000);
-
 import * as readline from "readline";
 import { getStateRepresentation } from "./representation";
 readline.emitKeypressEvents(process.stdin);
@@ -34,11 +32,14 @@ process.stdin.on("keypress", (str, key) => {
   if (key.ctrl && key.name === "c") {
     process.exit();
   } else {
-    switch (key.name) {
-      case "down": currentState = produce(currentState, controlBlock.moveDown); break;
-      case "up": currentState = produce(currentState, controlBlock.rotate); break;
-      case "left": currentState = produce(currentState, controlBlock.moveLeft); break;
-      case "right": currentState = produce(currentState, controlBlock.moveRight); break;
+    const keyMap: {[key: string]: (state: IState) => any } = {
+      "down": controlBlock.moveDown,
+      "up": controlBlock.rotate,
+      "left": controlBlock.moveLeft,
+      "right": controlBlock.moveRight,
+    };
+    if (keyMap[key.name]) {
+      currentState = produce(currentState, keyMap[key.name]);
     }
   }
 });
