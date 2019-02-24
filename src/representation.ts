@@ -1,5 +1,6 @@
-import { addControlBlockToBlocks, Block, IState } from "./field";
+import { Block, IState } from "./field";
 import produce from "immer";
+import { addControlBlockToBlocks } from "./control_block";
 
 export type IStateRepresentation = string;
 
