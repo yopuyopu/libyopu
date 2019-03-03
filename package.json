@@ -1,10 +1,11 @@
 {
   "name": "libyopu",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Libyopu yopuyopu engine",
   "main": "dist/libyopu.umd.js",
   "module": "dist/libyopu.es5.js",
-  "types": "dist/typess/libyopu.d.ts",
+  "types": "dist/libyopu.d.ts",
+  "typings": "dist/libyopu.d.ts",
   "files": [
     "dist"
   ],
